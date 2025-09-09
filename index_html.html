@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Captura de Datos - Ingenio Mahuixtlán</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Formulario de Login -->
+    <div id="loginSection" class="login-form">
+        <div class="login-header">
+            <div class="logo-container">
+                <div class="zucarmex-logo">
+                    <div class="logo-triangles">
+                        <div class="triangle triangle1"></div>
+                        <div class="triangle triangle2"></div>
+                        <div class="triangle triangle3"></div>
+                    </div>
+                    ZUCARMEX<sup>®</sup>
+                </div>
+            </div>
+            <div class="company-title">Ingenio Mahuixtlán</div>
+            <div class="company-subtitle">Avance Físico de Labores Agrícolas</div>
+        </div>
+        
+        <h2 class="login-title">Iniciar Sesión</h2>
+        <div class="form-group">
+            <label for="username">Usuario</label>
+            <input type="text" id="username" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" placeholder="">
+        </div>
+        <button onclick="handleLogin()" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 16px; border-radius: 5px;">Entrar</button>
+        <div id="loginAlert" class="alert alert-error hidden">
+            Usuario o contraseña incorrectos
+        </div>
+        <div style="margin-top: 20px; padding: 15px; background: rgba(34,116,71,0.1); border-radius: 8px; font-size: 14px; border: 1px solid rgba(34,116,71,0.3);">
+            <strong style="color: rgb(34,116,71);">Usuarios de prueba:</strong><br>
+            <span style="color: rgb(34,116,71);">admin / admin123<br>
+            usuario / pass123<br>
+            demo / demo</span>
+        </div>
+    </div>
+
+    <!-- Aplicación Principal -->
+    <div id="mainApp" class="container hidden">
+        <div class="header">
+            <h1 style="color: rgb(34,116,71); margin-bottom: 10px;">Ingenio Mahuixtlán - Sistema de Captura de Datos</h1>
+            <div class="user-info">
+                <span>👤</span>
+                <span id="currentUser">Usuario</span>
+                <button onclick="logout()" class="btn btn-danger" style="margin-left: auto;">Cerrar Sesión</button>
+            </div>
+            <div class="nav-buttons">
+                <button onclick="showSection('capture')" class="btn btn-primary">📝 Captura</button>
+                <button onclick="showSection('reports')" class="btn btn-secondary">📊 Informes</button>
+                <button onclick="showSection('data')" class="btn btn-warning">📋 Datos</button>
+                <button onclick="exportToExcel()" class="btn btn-secondary">📤 Exportar Excel</button>
+            </div>
+        </div>
+
+        <!-- Sección de Captura -->
+        <div id="captureSection" class="section">
+            <h2>Avance Físico de Labores Agrícolas</h2>
+            
+            <!-- Datos del Productor -->
+            <div style="background: rgba(34,116,71,0.1); padding: 20px; border-radius: 10px; margin-bottom: 25px; border: 2px solid rgba(34,116,71,0.2);">
+                <h3 style="color: rgb(34,116,71); margin-bottom: 15px; font-size: 18px;">📋 DATOS DEL PRODUCTOR</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zafra_ciclo">Zafra-Ciclo *</label>
+                        <select id="zafra_ciclo" required>
+                            <option value="">Seleccione zafra-ciclo</option>
+                            <option value="2024-2025">2024-2025</option>
+                            <option value="2025-2026">2025-2026</option>
+                            <option value="2025-2027">2025-2027</option>
+                            <option value="2026-2027">2026-2027</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="zona">Zona *</label>
+                        <input type="number" id="zona" min="1" max="20" required placeholder="Ej: 4">
+                    </div>
+                    <div class="form-group">
+                        <label for="campo">Campo *</label>
+                        <input type="text" id="campo" required placeholder="Código del campo">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_prod">ID-Prod. *</label>
+                        <input type="text" id="id_prod" required placeholder="Ej: 2810032">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre_productor">Nombre Productor *</label>
+                        <input type="text" id="nombre_productor" required placeholder="Nombre completo" style="text-transform: uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label for="superficie">Superficie (Ha) *</label>
+                        <input type="number" id="superficie" step="0.1" min="0" required placeholder="Ej: 3.5">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="ciclo">Ciclo (P-S-R) *</label>
+                        <select id="ciclo" required>
+                            <option value="">Seleccione ciclo</option>
+                            <option value="P">P - Plantilla</option>
+                            <option value="S">S - Soca</option>
+                            <option value="R">R - Resoca</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="regimen">Régimen (R-T) *</label>
+                        <select id="regimen" required>
+                            <option value="">Seleccione régimen</option>
+                            <option value="R">R - Riego</option>
+                            <option value="T">T - Temporal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha_avance">Fecha-Avance *</label>
+                        <input type="date" id="fecha_avance" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Avance de Labores Agrícolas -->
+            <div style="background: rgba(255,255,255,0.8); padding: 20px; border-radius: 10px; border: 2px solid rgba(34,116,71,0.3);">
+                <h3 style="color: rgb(34,116,71); margin-bottom: 15px; font-size: 18px;">🚜 AVANCE DE LABORES AGRÍCOLAS REALIZADAS</h3>
+                
+                <div class="labores-grid">
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="desmonte" class="labor-checkbox">
+                            <span class="labor-text">Desmonte</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primer_barbecho" class="labor-checkbox">
+                            <span class="labor-text">1er. Barbecho</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="segundo_barbecho" class="labor-checkbox">
+                            <span class="labor-text">2do. Barbecho</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="ap_encalado" class="labor-checkbox">
+                            <span class="labor-text">Ap./Encalado</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primera_rastra" class="labor-checkbox">
+                            <span class="labor-text">1ra. Rastra</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="surco" class="labor-checkbox">
+                            <span class="labor-text">Surco</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="siembra_amp" class="labor-checkbox">
+                            <span class="labor-text">Siembra-Amp.</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="siembra_rep" class="labor-checkbox">
+                            <span class="labor-text">Siembra-Rep.</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="jta_quema" class="labor-checkbox">
+                            <span class="labor-text">Jta. Quema</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primer_cultivo" class="labor-checkbox">
+                            <span class="labor-text">1er. Cultivo</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primer_cultivo_yta" class="labor-checkbox">
+                            <span class="labor-text">1er. Cultivo/Yta.</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primera_ap_fertilizante" class="labor-checkbox">
+                            <span class="labor-text">1ra. Ap/Fertilizante</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primera_ap_fert_mec" class="labor-checkbox">
+                            <span class="labor-text">1ra. Ap/Fert.Mec.</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primer_riego" class="labor-checkbox">
+                            <span class="labor-text">1er. Riego</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="subsuelo_ctral" class="labor-checkbox">
+                            <span class="labor-text">Subsuelo/Ctral.</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primera_limpia" class="labor-checkbox">
+                            <span class="labor-text">1ra. Limpia</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="primera_ap_herbicida" class="labor-checkbox">
+                            <span class="labor-text">1ra. Ap/Herbicida</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="segunda_ap_ferti" class="labor-checkbox">
+                            <span class="labor-text">2da. Ap/Ferti.</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="segundo_riego" class="labor-checkbox">
+                            <span class="labor-text">2do. Riego</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="segunda_limpia" class="labor-checkbox">
+                            <span class="labor-text">2da. Limpia</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="segunda_ap_herbicida" class="labor-checkbox">
+                            <span class="labor-text">2da. Ap/Herbicida</span>
+                        </label>
+                    </div>
+                    <div class="labor-item">
+                        <label class="labor-label">
+                            <input type="checkbox" id="resiembra" class="labor-checkbox">
+                            <span class="labor-text">Resiembra</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-row" style="margin-top: 20px;">
+                    <div class="form-group">
+                        <label for="observaciones">Observaciones</label>
+                        <textarea id="observaciones" rows="2" placeholder="Notas adicionales sobre las labores realizadas..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons" style="margin-top: 25px;">
+                <button onclick="saveRecord()" class="btn btn-primary">💾 Guardar Avance</button>
+                <button onclick="clearForm()" class="btn btn-secondary">🗑️ Limpiar Formulario</button>
+                <button id="cancelEdit" onclick="cancelEdit()" class="btn btn-warning hidden">❌ Cancelar Edición</button>
+            </div>
+            <div id="formAlert"></div>
+        </div>
+
+        <!-- Sección de Informes -->
+        <div id="reportsSection" class="section">
+            <h2>Informes de Avance por Labor</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSuperficie">0</div>
+                    <div>Superficie Total (Ha)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgLaboresPorProductor">0</div>
+                    <div>Promedio Labores/Productor</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="productoresActivos">0</div>
+                    <div>Productores Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="porcentajeAvanceGeneral">0%</div>
+                    <div>% Avance General</div>
+                </div>
+            </div>
+            
+            <!-- Reporte de Superficie por Labor -->
+            <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: rgb(34,116,71); margin-bottom: 15px;">📊 Superficie Trabajada por Labor (Ha)</h3>
+                <div id="laborSuperficieTable"></div>
+            </div>
+            
+            <!-- Reporte por Zona/Campo -->
+            <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: rgb(34,116,71); margin-bottom: 15px;">🗺️ Avance por Zona</h3>
+                <div id="zonaAvanceTable"></div>
+            </div>
+            
+            <!-- Comparativa por Ciclo -->
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: rgb(34,116,71); margin-bottom: 15px;">🌱 Comparativa por Ciclo de Cultivo</h3>
+                <div id="cicloComparativa"></div>
+            </div>
+        </div>
+
+        <!-- Sección de Datos -->
+        <div id="dataSection" class="section">
+            <h2>Gestión de Datos</h2>
+            <input type="text" id="searchInput" class="search-box" placeholder="Buscar registros...">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID-Prod</th>
+                        <th>Productor</th>
+                        <th>Zona</th>
+                        <th>Campo</th>
+                        <th>Superficie</th>
+                        <th>Ciclo</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <!-- Los datos se cargan dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
